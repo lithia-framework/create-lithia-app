@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowJs": false,
+    "types": ["node"],
+    "resolveJsonModule": true,
+    "strict": true,
+    "useUnknownInCatchVariables": false,
+    "paths": {
+      "lithia/cli": ["./src/cli"],
+      "lithia/meta": ["./src/meta"],
+      "lithia/types": ["./src/types"],
+      "lithia/utils": ["./src/utils"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
