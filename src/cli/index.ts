@@ -28,13 +28,19 @@ const main = defineCommand({
         name: 'default',
         branch: 'main',
         url: 'https://github.com/lithiajs/lithia-default-app-template.git',
-        description: 'Default Lithia app template',
+        description: 'Setup a Lithia.js app with no presets',
       },
       {
         name: 'with-drizzle',
         branch: 'main',
         url: 'https://github.com/lithiajs/lithia-with-drizzle-template.git',
-        description: 'Lithia app template with Drizzle',
+        description: 'Setup a Lithia.js app using Drizzle ORM',
+      },
+      {
+        name: 'with-prisma',
+        branch: 'main',
+        url: 'https://github.com/lithiajs/lithia-with-prisma-template.git',
+        description: 'Setup a Lithia.js app using Prisma ORM',
       },
     ];
 
