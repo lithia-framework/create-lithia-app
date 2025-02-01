@@ -1,15 +1,20 @@
 #!/usr/bin/env node
 
 import { defineCommand, runMain } from 'citty';
-import consola from 'consola';
 import { lithiaVersion } from 'lithia/meta';
 import { ProjectTemplate } from 'lithia/types';
-import { pingVersion, runPromiseStep, validateProjectName } from 'lithia/utils';
+import {
+  info,
+  pingVersion,
+  ready,
+  runPromiseStep,
+  validateProjectName,
+} from 'lithia/utils';
 import { exec } from 'node:child_process';
 import { mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import picocolors from 'picocolors';
 import prompts from 'prompts';
+import { green } from 'lithia/utils';
 
 const main = defineCommand({
   meta: {
@@ -44,7 +49,7 @@ const main = defineCommand({
         {
           name: 'pName',
           type: 'text',
-          message: `What is the ${picocolors.green('name')} of your project?`,
+          message: `What is the ${green('name')} of your project?`,
           initial: 'my-lithia-app',
           validate: validateProjectName,
           format: (v) => v.trim(),
@@ -52,7 +57,7 @@ const main = defineCommand({
         {
           name: 'pTemplate',
           type: 'select',
-          message: `Choose a ${picocolors.green('template')} for your project`,
+          message: `Choose a ${green('template')} for your project`,
           choices: templates.map((t) => ({
             title: t.name,
             value: t,
@@ -62,13 +67,13 @@ const main = defineCommand({
         {
           name: 'pInstallDeps',
           type: 'confirm',
-          message: `Do you want to ${picocolors.green('install')} dependencies after creating the project?`,
+          message: `Do you want to ${green('install')} dependencies after creating the project?`,
           initial: true,
         },
         {
           name: 'pInstallDepsManager',
           type: (prev: boolean) => (prev ? 'select' : null),
-          message: `Choose a ${picocolors.green('package manager')} to install dependencies`,
+          message: `Choose a ${green('package manager')} to install dependencies`,
           choices: [
             { title: 'npm', value: 'npm', disabled: !npmInstalled },
             { title: 'yarn', value: 'yarn', disabled: !yarnInstalled },
@@ -77,13 +82,13 @@ const main = defineCommand({
         {
           name: 'pGitInit',
           type: !gitInstalled ? null : 'confirm',
-          message: `Do you want to ${picocolors.green('initialize')} a git repository?`,
+          message: `Do you want to ${green('initialize')} a git repository?`,
           initial: true,
         },
       ],
       {
         onCancel: () => {
-          consola.info('Operation cancelled');
+          info('Operation cancelled');
           process.exit(0);
         },
       },
@@ -96,14 +101,14 @@ const main = defineCommand({
       const answer = await prompts({
         name: 'pOverwrite',
         type: 'confirm',
-        message: `The directory ${picocolors.green(answers.pName)} already exists. Do you want to overwrite it?`,
+        message: `The directory ${green(answers.pName)} already exists. Do you want to overwrite it?`,
         initial: false,
       });
 
       if (answer.pOverwrite) {
         await rm(dir, { recursive: true });
       } else {
-        consola.info('Operation cancelled');
+        info('Operation cancelled');
         process.exit(0);
       }
     }
@@ -188,14 +193,14 @@ const main = defineCommand({
       );
     }
 
+    ready('Hold on, we are almost there!');
     const messages = [
-      "Hold on, we're almost there!",
       'Your project is ready to go, now you just need to run the following commands:',
-      `├───> ${picocolors.cyan(`cd ${answers.pName}`)}`,
-      `└───> ${picocolors.cyan(`${answers.pInstallDepsManager} run dev`)}`,
+      `├───> ${green(`cd ${answers.pName}`)}`,
+      `└───> ${green(`${answers.pInstallDepsManager} run dev`)}`,
     ];
 
-    messages.forEach((message) => consola.info(message));
+    messages.forEach((message) => info(message));
 
     process.exit(0);
   },

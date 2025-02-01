@@ -1,5 +1,8 @@
 import { exec } from 'child_process';
-import consola from 'consola';
+import { event, wait } from './log';
+
+export * from './log';
+export * from './picocolors';
 
 export function validateProjectName(value: string): string | boolean {
   if (!value) return 'Project name cannot be empty';
@@ -18,7 +21,7 @@ export function pingVersion(cmd: string) {
 
 export async function runPromiseStep<T>(fn: () => Promise<T>, message: string) {
   const time = Date.now();
-  consola.info(message);
+  wait(message);
   await fn();
-  consola.success(`Done in ${Date.now() - time}ms\n`);
+  event(`Done in ${Date.now() - time}ms\n`);
 }
