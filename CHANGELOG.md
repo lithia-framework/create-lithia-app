@@ -1,5 +1,11 @@
 # create-lithia-app
 
+## 2.1.0
+
+### Minor Changes
+
+- More options added to project scaffolding
+
 ## 2.0.2
 
 ### Patch Changes
