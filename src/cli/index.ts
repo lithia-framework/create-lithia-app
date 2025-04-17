@@ -289,7 +289,6 @@ async function createProject(config: ProjectConfig) {
   await cloneTemplate(dir, config.template);
   await updatePackageJson(dir, config.projectName);
   await rm(path.join(dir, '.git'), { recursive: true });
-  await rm(path.join(dir, 'package-lock.json'), { recursive: true });
 
   if (config.initializeGit) {
     await initializeGitRepository(dir);
