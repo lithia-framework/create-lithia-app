@@ -1,5 +1,11 @@
 # create-lithia-app
 
+## 2.1.1
+
+### Patch Changes
+
+- fix: non existent package-lock error
+
 ## 2.1.0
 
 ### Minor Changes
