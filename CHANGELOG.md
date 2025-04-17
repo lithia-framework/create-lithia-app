@@ -1,5 +1,11 @@
 # create-lithia-app
 
+## 2.1.2
+
+### Patch Changes
+
+- Fix backslashes
+
 ## 2.1.1
 
 ### Patch Changes

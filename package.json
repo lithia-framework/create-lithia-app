@@ -1,6 +1,6 @@
 {
   "name": "create-lithia-app",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Next-generation framework for building server-side applications with Node.js & TypeScript 🚀",
   "repository": {
     "type": "git",
