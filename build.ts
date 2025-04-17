@@ -61,7 +61,7 @@ await globby('.', {
           let relativePath = relative(
             dirname(fullPath),
             join(process.cwd(), 'dist', resolvedPath, 'index.js'),
-          );
+          ).replace(/\\/g, '/');
 
           if (relativePath[0] !== '.') {
             relativePath = `./${relativePath}`;
