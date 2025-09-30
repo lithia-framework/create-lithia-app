@@ -2,45 +2,84 @@
   "name": "create-lithia-app",
   "version": "2.1.2",
   "description": "Next-generation framework for building server-side applications with Node.js & TypeScript 🚀",
+  "keywords": [
+    "lithia",
+    "framework",
+    "typescript",
+    "nodejs",
+    "node",
+    "api",
+    "server",
+    "backend",
+    "file-based-routing",
+    "hot-reload",
+    "web-framework",
+    "rest-api",
+    "developer-experience",
+    "dx",
+    "scaffolding",
+    "cli",
+    "create-app"
+  ],
+  "author": {
+    "name": "Lithia Team",
+    "email": "contact@lithiajs.com",
+    "url": "https://lithiajs.com"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lithiajs/create-lithia-app.git"
+    "url": "git+https://github.com/lithia-framework/create-lithia-app.git"
+  },
+  "homepage": "https://lithiajs.com",
+  "bugs": {
+    "url": "https://github.com/lithia-framework/create-lithia-app/issues"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/lithiajs"
   },
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
   },
-  "scripts": {
-    "build": "tsx build.ts",
-    "format": "prettier --write ."
-  },
+  "packageManager": "pnpm@8.15.0",
   "bin": {
     "create-lithia-app": "dist/cli/index.js"
   },
   "files": [
     "dist",
-    "*.d.ts"
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
   ],
+  "scripts": {
+    "build": "tsx build.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build"
+  },
   "devDependencies": {
-    "@changesets/cli": "^2.27.12",
     "@eslint/js": "^9.19.0",
     "@types/node": "^22.13.0",
     "@types/prompts": "^2.4.9",
     "eslint": "^9.19.0",
     "globals": "^15.14.0",
-    "globby": "^14.0.2",
     "prettier": "^3.4.2",
     "tsup": "^8.3.6",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.22.0"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "dependencies": {
     "citty": "^0.1.6",
     "prompts": "^2.4.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

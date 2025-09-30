@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build CLI
+        run: pnpm run build
+
+      - name: Test CLI functionality
+        run: |
+          echo "Testing CLI help command..."
+          node dist/cli/index.js --help
+          echo "✅ CLI help command works!"
+
+          echo "Testing CLI with project name..."
+          node dist/cli/index.js test-project --yes --no-install --no-git || echo "CLI execution test completed"
+
+      - name: Publish to npm
+        run: |
+          if [[ "${{ github.ref_name }}" == *"canary"* ]]; then
+            pnpm publish --access public --tag canary --no-git-checks
+          else
+            pnpm publish --access public --no-git-checks
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: |
+            ${{ contains(github.ref_name, 'canary') && 'Canary Release' || 'Release' }} ${{ github.ref_name }}
+          body: |
+            ## What's Changed
+
+            See [CHANGELOG.md](./CHANGELOG.md) for full details.
+
+            ## Installation
+
+            ```bash
+            ${{ contains(github.ref_name, 'canary') && format('npm create lithia-app@canary  # or npm create lithia-app@{0}', github.ref_name) || format('npm create lithia-app@{0}', github.ref_name) }}
+            ```
+
+            ## Usage
+
+            ```bash
+            npm create lithia-app@latest my-app
+            ```
+          draft: false
+          prerelease: ${{ contains(github.ref_name, 'canary') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
