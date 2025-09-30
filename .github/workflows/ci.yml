@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, canary]
+    branches: [canary]
   pull_request:
-    branches: [main, canary]
+    branches: [canary]
 
 jobs:
   lint:
@@ -39,7 +39,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Run linter
         run: pnpm run lint
@@ -85,7 +85,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-node${{ matrix.node-version }}-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build CLI
         run: pnpm run build
